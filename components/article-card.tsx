@@ -1,3 +1,4 @@
+import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Article } from "../data/articles";
 
@@ -34,8 +35,13 @@ export default function ArticleCard({ article, onPress }: ArticleCardProps) {
                 {article.summary}
             </Text>
             <View style={styles.footer}>
-                <Text style={styles.author}>{article.author}</Text>
-                <Text style={styles.readMore}>Read more</Text>
+                <Text style={styles.author} numberOfLines={1}>
+                    {article.author}
+                </Text>
+                <View style={styles.readMoreRow}>
+                    <Text style={styles.readMore}>Read more</Text>
+                    <Ionicons name="arrow-forward" size={13} color="#0D9488" />
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -60,7 +66,15 @@ const styles = StyleSheet.create({
     date: { fontSize: 11, color: "#94A3B8" },
     title: { fontSize: 15, fontWeight: "700", color: "#0D1F4E", lineHeight: 22, marginBottom: 6 },
     summary: { fontSize: 13, color: "#64748B", lineHeight: 19, marginBottom: 12 },
-    footer: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-    author: { fontSize: 12, color: "#94A3B8", fontStyle: "italic" },
+    footer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingTop: 10,
+        borderTopWidth: 1,
+        borderTopColor: "#F1F5F9",
+    },
+    author: { flex: 1, fontSize: 12, color: "#94A3B8", fontStyle: "italic", marginRight: 12 },
+    readMoreRow: { flexDirection: "row", alignItems: "center", gap: 4 },
     readMore: { fontSize: 12, color: "#0D9488", fontWeight: "600" },
 });

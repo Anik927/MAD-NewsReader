@@ -1,10 +1,13 @@
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { ARTICLES } from "../../../data/articles";
+import { useEffect, useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { ARTICLES } from "../../../data/articles";
+
 
 type ArticleParams = { id: string };
+
 
 const CATEGORY_COLOURS: Record<string, { bg: string; text: string }> = {
     Tech: { bg: "#EFF6FF", text: "#1D4ED8" },
@@ -22,12 +25,14 @@ export default function ArticleDetail() {
 
     const article = ARTICLES.find((a) => a.id === id);
 
-    // Update the Stack header title once we have the article
+    const [bookmarked, setBookmarked] = useState<boolean>(false);
+
+    
     useEffect(() => {
-        if (article) {
-            navigation.setOptions({ title: article.title });
-        }
-    }, [article]);
+    if (article) {
+        navigation.setOptions({ title: article.title });
+    }
+}, [article]);
 
     if (!article) {
         return (
@@ -57,6 +62,18 @@ export default function ArticleDetail() {
                     </Text>
                 ))}
             </ScrollView>
+
+                <Pressable
+                style={styles.fab}
+                onPress={() => setBookmarked((prev) => !prev)}
+            >
+                <Ionicons
+                    name={bookmarked ? "bookmark" : "bookmark-outline"}
+                    size={26}
+                    color="#FFFFFF"
+                />
+            </Pressable>
+
         </SafeAreaView>
     );
 }
@@ -72,4 +89,20 @@ const styles = StyleSheet.create({
     divider: { height: 1, backgroundColor: "#F1F5F9", marginBottom: 20 },
     body: { fontSize: 15, color: "#334155", lineHeight: 24, marginBottom: 16 },
     notFound: { padding: 40, textAlign: "center", color: "#94A3B8" },
+    fab: {
+    position: "absolute",
+    bottom: 24,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "#0D9488",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+},
 });
